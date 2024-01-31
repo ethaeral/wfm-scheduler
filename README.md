@@ -48,3 +48,5 @@ Format excel doc visually
 
 Output 
 Excel sheet
+
+ .venv\Scripts\activate

@@ -1,3 +1,2 @@
 #!/bin/bash
-cd ..
-flask --app wfm-scheduler run --debug
+flask --app wfm_scheduler run --debug
