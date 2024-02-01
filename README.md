@@ -37,7 +37,7 @@ Break Rules for TMs
     - Not having people leaving the floor for more than 2 or max three if possible (unless leaving)
 Ordered Preferences
 Full Time Priority
-Input excel sheeet
+Input excel sheet
 
 Features
 Create Worker Preference
@@ -46,7 +46,10 @@ Create break cards
 Create SCO and Cart Hours
 Format excel doc visually
 
+auth0
+
 Output 
 Excel sheet
 
  .venv\Scripts\activate
+
