@@ -1,3 +1,9 @@
+# Line Up Generator
+Problem Statement:  
+Workers that are getting paid $19.50 - $27 (MA) an hour to make line up manually. Each line up takes 10-30 mins to complete. Without mentioning the cost of training these workers that would cost the company $4914 per year given that the highest paid supervisor took 30 minutes to create each lineup for the week.
+
+State wide, it would cost $157,248 - given each location was had the same type of worker with the same wage - it would save wholefoods as a company 2.6 million a year of labor cost.
+
 ## User Types
 
 Team Members
