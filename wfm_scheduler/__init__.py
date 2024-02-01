@@ -6,7 +6,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True, template_folder='templates')
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        DATABASE=os.path.join(app.instance_path, 'wfm_scheduler.sqlite'),
     )
 
     if test_config is None:
@@ -27,13 +27,13 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
     
-    from .db import db
+    from .src.db import db
     db.init_app(app)
     
-    from .app import auth
+    from .src.app import auth
     app.register_blueprint(auth.bp)
     
-    from .app import blog
+    from .src.app import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
 

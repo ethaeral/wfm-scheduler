@@ -1,2 +1,2 @@
 #!/bin/bash
-flask --app wfm-scheduler init-db
+flask --app wfm_scheduler init-db
