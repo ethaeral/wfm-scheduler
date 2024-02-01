@@ -31,25 +31,45 @@ Output
 
 ## Features
 
-Input:
-Break Rules for TMs
-    - Based on break state accordance
+Input:   
+- Break Rules for TMs  
+    - Based on break state accordance  
     - Not having people leaving the floor for more than 2 or max three if possible (unless leaving)
-Ordered Preferences
-Full Time Priority
-Input excel sheet
-
+- Ordered Preferences
+- Full Time Priority
+- Input excel sheet  
+ 
 Features
-Create Worker Preference
-Create break
-Create break cards
-Create SCO and Cart Hours
-Format excel doc visually
+- Create Worker Preference
+- Create break
+- Create break cards
+- Create SCO and Cart Hours
+- Format excel doc visually
 
-auth0
+Misc
+- auth0
 
 Output 
-Excel sheet
+- Excel sheet
 
- .venv\Scripts\activate
 
+## Quick Start To Set Up Dev
+```bash
+cd wfm_scheduler
+
+# install dependencies
+pip install -r requirements.txt
+
+# start python virtual env
+.venv\Scripts\activate
+
+# initiate the db
+.\init_db.sh
+
+# start dev server
+.\dev.sh
+
+# run tests
+.\test.sh
+
+```
