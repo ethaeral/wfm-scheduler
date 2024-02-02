@@ -64,6 +64,8 @@ Output
 - Sign up if not user 
 - Confirm email
 - Log in
+    - (generate jwt and store it in http only cookie)
+    - (redis?)
 - Select store
 - Create team
 - Upload excel sheet data
