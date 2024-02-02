@@ -1,83 +1,107 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS STORES;
+DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS CONFIGS;
+DROP TABLE IF EXISTS USERS_CONFIGS;
+DROP TABLE IF EXISTS HIGH_TRAFFIC_HOURS;
+DROP TABLE IF EXISTS EMPLOYEES;
+DROP TABLE IF EXISTS PREFERENCES;
+DROP TABLE IF EXISTS ROLES;
 
-CREATE TABLE user (
+-- Wholefoods location
+CREATE TABLE STORES (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  abbrv VARCHAR NOT NULL
+);
+
+-- Person Generating Line Up
+CREATE TABLE USERS (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+  store_id INTEGER,
+  FOREIGN KEY(store_id) REFERENCES STORES(id)
 );
 
-CREATE TABLE post (
+-- Rules the line up will follow
+CREATE TABLE CONFIGS (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  author_id INTEGER NOT NULL,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id)
+  max_floor INTEGER NOT NULL, -- max cashiers on the floor
+  min_floor INTEGER NOT NULL, -- min cashiers on the floor
+  open_hrs INTEGER NOT NULL,
+  close_hr INTEGER NOT NULL,
+  hrs_unpaid INTEGER DEFAULT 4 NOT NULL, -- how many hours for paid 10 mins break
+  hrs_two_unpaid INTEGER DEFAULT 5.5 NOT NULL, -- how many hours for two paid 10 mins break
+  hrs_paid INTEGER DEFAULT 6 NOT NULL  -- how many hours for paid 30 mins break
 );
 
+-- Connects Users to their many configurations - which will change on min floor, and high traffic hours
+CREATE TABLE USERS_CONFIGS (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  config_id INTEGER NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES USERS(id),
+  FOREIGN KEY(config_id) REFERENCES CONFIGS(id)
+);
 
-/*
-TABLE USERS {
-  id integer [primary key]
-  name varchar [not null]
-  store_id integer
-}
+-- Based off last years report of busy hours on that day
+CREATE TABLE HIGH_TRAFFIC_HOURS (
+  config_id INTEGER PRIMARY KEY,
+  ZERO_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  ONE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TWO_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  THREE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  FOUR_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  FIVE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  SIX_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  SEVEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  EIGHT_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  NINE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  ELEVEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TWELVE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  THIRTEEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  FOURTEEN HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  FIFTEEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  SIXTEEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  SEVENTEEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  EIGHTEEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  NINETEEN_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TWENTY_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TWENTY_ONE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TWENTY_TWO_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  TWENTY_THREE_HOUR BOOLEAN DEFAULT 0 NOT NULL,
+  FOREIGN KEY(config_id) REFERENCES CONFIGS(id)
+);
 
-TABLE CONFIGS {
-  id integer [primary key]
-  max_floor integer [not null]
-  min_floor integer [not null]
-  busy_hrs "int[]"
-  hrs_unpaid integer [not null]
-  hrs_paid integer [default: 6]
-}
+-- All workers
+CREATE TABLE EMPLOYEES (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  preferred_name VARCHAR,
+  system_name VARCHAR NOT NULL,
+  full_time BOOLEAN NOT NULL,
+  store_id INTEGER NOT NULL,
+  FOREIGN KEY(store_id ) REFERENCES STORES(id)
+);
 
-TABLE USERS_CONFIGS {
-  id integer [primary key]
-  user_id integer [not null]
-  config_id interger [not null]
-}
+-- TM (team member) tasks preference, if worker does not have role of team_member, preference can be pulled but not used
+-- Negative integers will be used to display restrictions as in the TM cannot do - for example if they are not trained
+CREATE TABLE PREFERENCES (
+  employee_id INTEGER PRIMARY KEY,
+  bagger INTEGER DEFAULT 0 NOT NULL,
+  sco INTEGER DEFAULT 0 NOT NULL,
+  cashier INTEGER DEFAULT 0 NOT NULL,
+  carts INTEGER DEFAULT 0 NOT NULL,
+  two_paid_breaks BOOLEAN DEFAULT 0 NOT NULL,
+  FOREIGN KEY(employee_id) REFERENCES EMPLOYEES(id)
+);
 
-TABLE STORES {
-  id integer [primary key]
-  abbrv varchar [not null]
-  region varchar [not null]
-}
+-- Roles for workers 
+CREATE TABLE ROLES (
+  employee_id INTEGER PRIMARY KEY,
+  team_member BOOLEAN DEFAULT 0 NOT NULL,
+  supervisor BOOLEAN DEFAULT 0 NOT NULL,
+  leadership BOOLEAN DEFAULT 0 NOT NULL,
+  housekeeping BOOLEAN DEFAULT 0 NOT NULL,
+  sign_making BOOLEAN DEFAULT 0 NOT NULL,
+  FOREIGN KEY(employee_id ) REFERENCES EMPLOYEES(id)
+);
 
-TABLE EMPLOYEES {
-  id integer [primary key]
-  preferred_name varchar 
-  system_name varchar [not null]
-  full_time bool [not null]
-  store_id integer [not null]
-}
-
-TABLE PREFERENCES {
-  employee_id integer [primary key]
-  bagger interger [default: 0]
-  sco interger [default: 0]
-  cashier interger [default: 0]
-  carts interger [default: 0]
-  two_paid_breaks bool [default: false]
-}
-
-TABLE ROLES {
-  employee_id integer [primary key]
-  team_member bool [default: false]
-  supervisor bool [default: false]
-  leadership bool [default: false]
-  housekeeping bool [default: false]
-  sign_making bool [default: false]
-}
-
-Ref: USERS_CONFIGS.user_id > USERS.id
-Ref: USERS_CONFIGS.config_id - CONFIGS.id
-Ref: USERS.store_id - STORES.id
-Ref: EMPLOYEES.store_id - STORES.id
-Ref: PREFERENCES.employee_id - EMPLOYEES.id
-Ref: ROLES.employee_id - EMPLOYEES.id
-
-
-
-*/

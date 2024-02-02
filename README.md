@@ -79,7 +79,7 @@ Output
 
 
 ## Database Schema
-![database schema](Database_schema.png)
+![database schema](db_schema.png)
 
 ## Quick Start To Set Up Dev
 ```bash
