@@ -7,11 +7,13 @@ DROP TABLE IF EXISTS EMPLOYEES;
 DROP TABLE IF EXISTS PREFERENCES;
 DROP TABLE IF EXISTS ROLES;
 
+-- Wholefoods location
 CREATE TABLE STORES (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   abbrv VARCHAR NOT NULL
 );
 
+-- Person Generating Line Up
 CREATE TABLE USERS (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
@@ -19,16 +21,19 @@ CREATE TABLE USERS (
   FOREIGN KEY(store_id) REFERENCES STORES(id)
 );
 
+-- Rules the line up will follow
 CREATE TABLE CONFIGS (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  max_floor INTEGER NOT NULL,
-  min_floor INTEGER NOT NULL,
+  max_floor INTEGER NOT NULL, -- max cashiers on the floor
+  min_floor INTEGER NOT NULL, -- min cashiers on the floor
   open_hrs INTEGER NOT NULL,
   close_hr INTEGER NOT NULL,
-  hrs_unpaid INTEGER DEFAULT 4 NOT NULL,
-  hrs_paid INTEGER DEFAULT 6 NOT NULL
+  hrs_unpaid INTEGER DEFAULT 4 NOT NULL, -- how many hours for paid 10 mins break
+  hrs_two_unpaid INTEGER DEFAULT 5.5 NOT NULL, -- how many hours for two paid 10 mins break
+  hrs_paid INTEGER DEFAULT 6 NOT NULL  -- how many hours for paid 30 mins break
 );
 
+-- Connects Users to their many configurations - which will change on min floor, and high traffic hours
 CREATE TABLE USERS_CONFIGS (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
@@ -37,6 +42,7 @@ CREATE TABLE USERS_CONFIGS (
   FOREIGN KEY(config_id) REFERENCES CONFIGS(id)
 );
 
+-- Based off last years report of busy hours on that day
 CREATE TABLE HIGH_TRAFFIC_HOURS (
   config_id INTEGER PRIMARY KEY,
   ZERO_HOUR BOOLEAN DEFAULT 0 NOT NULL,
@@ -66,7 +72,7 @@ CREATE TABLE HIGH_TRAFFIC_HOURS (
   FOREIGN KEY(config_id) REFERENCES CONFIGS(id)
 );
 
-
+-- All workers
 CREATE TABLE EMPLOYEES (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   preferred_name VARCHAR,
@@ -76,6 +82,8 @@ CREATE TABLE EMPLOYEES (
   FOREIGN KEY(store_id ) REFERENCES STORES(id)
 );
 
+-- TM (team member) tasks preference, if worker does not have role of team_member, preference can be pulled but not used
+-- Negative integers will be used to display restrictions as in the TM cannot do - for example if they are not trained
 CREATE TABLE PREFERENCES (
   employee_id INTEGER PRIMARY KEY,
   bagger INTEGER DEFAULT 0 NOT NULL,
@@ -86,6 +94,7 @@ CREATE TABLE PREFERENCES (
   FOREIGN KEY(employee_id) REFERENCES EMPLOYEES(id)
 );
 
+-- Roles for workers 
 CREATE TABLE ROLES (
   employee_id INTEGER PRIMARY KEY,
   team_member BOOLEAN DEFAULT 0 NOT NULL,
