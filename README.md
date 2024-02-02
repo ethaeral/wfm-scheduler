@@ -4,6 +4,27 @@ Workers that are getting paid $19.50 - $27 (MA) an hour to make line up manually
 
 State wide, it would cost $157,248 - given each location was had the same type of worker with the same wage - it would save wholefoods as a company 2.6 million a year of labor cost.
 
+## Quick Start To Set Up Dev
+```bash
+cd wfm_scheduler
+
+# install dependencies
+pip install -r requirements.txt
+
+# start python virtual env
+.venv\Scripts\activate
+
+# initiate the db
+.\init_db.sh
+
+# start dev server
+.\dev.sh
+
+# run tests
+.\test.sh
+
+```
+
 ## User Types
 
 Team Members
@@ -80,24 +101,3 @@ Output
 
 ## Database Schema
 ![database schema](db_schema.png)
-
-## Quick Start To Set Up Dev
-```bash
-cd wfm_scheduler
-
-# install dependencies
-pip install -r requirements.txt
-
-# start python virtual env
-.venv\Scripts\activate
-
-# initiate the db
-.\init_db.sh
-
-# start dev server
-.\dev.sh
-
-# run tests
-.\test.sh
-
-```
