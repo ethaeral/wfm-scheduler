@@ -1,5 +1,5 @@
 # Line Up Generator
-Problem Statement:  
+## Problem Statement:  
 Workers that are getting paid $19.50 - $27 (MA) an hour to make line up manually. Each line up takes 10-30 mins to complete. Without mentioning the cost of training these workers that would cost the company $4914 per year given that the highest paid supervisor took 30 minutes to create each lineup for the week.
 
 State wide, it would cost $157,248 - given each location was had the same type of worker with the same wage - it would save wholefoods as a company 2.6 million a year of labor cost.
@@ -62,14 +62,12 @@ Output
 
 ## User flow
 - Sign up if not user 
-- Confirm email
-- Log in
+- Log in with auth0
     - (generate jwt and store it in http only cookie)
     - (redis?)
 - Select store
-- Create team
 - Upload excel sheet data
-    - (generates employees and preferences)
+    - (generates employees and preferences, roles)
     - (generates config based off default)
 - Looks at the displayed lineup that is fully formated
 - User edits employees preferences and perferred name
@@ -77,7 +75,11 @@ Output
 - See highlighted areas where script not able to meet configuration requirements
 - Users have the ability to edit each break and tasks
 - User can print out the line up and break cards 
+- Sign out
 
+
+## Database Schema
+![database schema](Database_schema.png)
 
 ## Quick Start To Set Up Dev
 ```bash

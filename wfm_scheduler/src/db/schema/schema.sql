@@ -18,68 +18,66 @@ CREATE TABLE post (
 
 
 /*
-USERS
-id 
-name
+TABLE USERS {
+  id integer [primary key]
+  name varchar [not null]
+  store_id integer
+}
 
-CONFIG 
-id 
-max_floor
-min_floor
-hrs_unpaid
-hrs_paid
+TABLE CONFIGS {
+  id integer [primary key]
+  max_floor integer [not null]
+  min_floor integer [not null]
+  busy_hrs "int[]"
+  hrs_unpaid integer [not null]
+  hrs_paid integer [default: 6]
+}
 
-USERS_CONFIG
-id
-user_id fk
-config_id fk
+TABLE USERS_CONFIGS {
+  id integer [primary key]
+  user_id integer [not null]
+  config_id interger [not null]
+}
 
-STORE
-id
-abbrv
-region
+TABLE STORES {
+  id integer [primary key]
+  abbrv varchar [not null]
+  region varchar [not null]
+}
 
-USERS_STORE
-id
-user_id fk
-store_id fk
+TABLE EMPLOYEES {
+  id integer [primary key]
+  preferred_name varchar 
+  system_name varchar [not null]
+  full_time bool [not null]
+  store_id integer [not null]
+}
 
-EMPLOYEES
-id
-preferred_name
-system_name
-full_time
+TABLE PREFERENCES {
+  employee_id integer [primary key]
+  bagger interger [default: 0]
+  sco interger [default: 0]
+  cashier interger [default: 0]
+  carts interger [default: 0]
+  two_paid_breaks bool [default: false]
+}
 
-TEAMS
-id
-store_id fk
-team_member_id fk
+TABLE ROLES {
+  employee_id integer [primary key]
+  team_member bool [default: false]
+  supervisor bool [default: false]
+  leadership bool [default: false]
+  housekeeping bool [default: false]
+  sign_making bool [default: false]
+}
 
-PREFERENCE (preference will range from negative to 0 through positive, negative entries will be seen as restrictions)
-id 
-bagger
-sco
-cashier
-carts
-two_paid_breaks
+Ref: USERS_CONFIGS.user_id > USERS.id
+Ref: USERS_CONFIGS.config_id - CONFIGS.id
+Ref: USERS.store_id - STORES.id
+Ref: EMPLOYEES.store_id - STORES.id
+Ref: PREFERENCES.employee_id - EMPLOYEES.id
+Ref: ROLES.employee_id - EMPLOYEES.id
 
-EMPLOYEE_PREFERENCE
-id
-employee_id fk
-preference_id
-
-ROLES
-id 
-team_member
-supervisor
-leadership
-housekeeping
-sign_making
-
-EMPLOYEE_ROLES
-id
-role_id fk
-employee fk
 
 
 */
