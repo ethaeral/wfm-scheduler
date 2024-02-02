@@ -51,12 +51,30 @@ Features
 - Create break cards
 - Create SCO and Cart Hours
 - Format excel doc visually
+- If unable to fill: have a symbol for that hour
 
 Misc
 - auth0
 
 Output 
 - Excel sheet
+
+
+## User flow
+- Sign up if not user 
+- Confirm email
+- Log in
+- Select store
+- Create team
+- Upload excel sheet data
+    - (generates employees and preferences)
+    - (generates config based off default)
+- Looks at the displayed lineup that is fully formated
+- User edits employees preferences and perferred name
+- User edits configuration of the line up
+- See highlighted areas where script not able to meet configuration requirements
+- Users have the ability to edit each break and tasks
+- User can print out the line up and break cards 
 
 
 ## Quick Start To Set Up Dev
